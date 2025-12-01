@@ -1,772 +1,294 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>دوز </title>
-
-
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منوی بازی‌ها</title>
 <style>
 :root{
-  --bg1: #0f172a;
-  --bg2: #071627;
-  --accent1: #ff6f96;
-  --accent2: #6a85ff;
-  --neon: #00eaff;
-  --glass-bg: rgba(255,255,255,0.06);
-  --card-radius: 16px;
-  --button-radius: 22px;
-  --font-stack: Vazirmatn, system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --card-bg:#fff;
+  --page-bg:#f0f2f5;
+  --accent:#2b6cb0;
+  --text:#222;
 }
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;padding:0}
+*{box-sizing:border-box;}
 body{
-  min-height:100vh;
-  font-family:var(--font-stack);
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  background:linear-gradient(135deg,var(--bg1),var(--bg2));
-  color:#fff;
-  padding:18px;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  margin:0;
+  font-family:"Segoe UI", Tahoma, Arial, sans-serif;
+  background:var(--page-bg);
+  color:var(--text);
+  overflow-x:hidden;
 }
-.container{
-  width:100%;
-  max-width:980px;
-}
-h1{
-  margin:10px 0 14px;
-  font-size:26px;
-  text-align:center;
-  color:#fff;
-  text-shadow:0 2px 8px rgba(0,0,0,0.4);
-}
+.container{max-width:1200px;margin:0 auto;padding:20px;}
+header{text-align:center;margin-bottom:18px;}
+h1#pagetitle{margin:6px 0 0 0;font-size:28px; transition: color .3s;}
+p{margin:6px 0 12px 0;font-size:16px;}
+.menu{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;perspective:1000px;}
 .card{
-  width:100%;
-  padding:18px;
-  border-radius:var(--card-radius);
-  background:var(--glass-bg);
-  backdrop-filter: blur(12px) saturate(140%);
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
-  margin-bottom:16px;
-}
-#menu,#settings,#game,#history{
-  display:none;
-  gap:12px;
-  align-items:center;
-}
-button{
-  cursor:pointer;
-  border:0;
-  padding:12px 18px;
-  border-radius:var(--button-radius);
-  font-weight:700;
-  outline:none;
-  position:relative;
+  width:180px;
+  background:linear-gradient(145deg,#fff,#e6e9f0);
+  border-radius:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.06), 0 12px 24px rgba(0,0,0,0.1);
   overflow:hidden;
-  transition: transform .22s ease, box-shadow .22s ease, filter .22s;
-  -webkit-tap-highlight-color: transparent;
-}
-.menu-buttons{
+  text-decoration:none;
+  color:inherit;
+  cursor:pointer;
+  transition: transform .35s ease, box-shadow .35s ease, background .5s;
   display:flex;
   flex-direction:column;
-  gap:12px;
-}
-.menu-buttons button{
-  background: linear-gradient(145deg,var(--accent1), #ff92c2);
-  color:#fff;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.36), inset 0 -6px 16px rgba(255,255,255,0.12);
-  font-size:1rem;
-}
-.menu-buttons button::before{
-  content:"";
-  position:absolute;
-  left:-60%;
-  top:-50%;
-  width:180%;
-  height:220%;
-  background: linear-gradient(90deg, rgba(255,255,255,0.28), rgba(255,255,255,0));
-  transform: rotate(25deg);
+  align-items:center;
+  padding:12px;
   opacity:0;
-  filter: blur(14px);
-  transition: transform .45s ease, opacity .45s ease;
+  transform: translateY(30px);
+  background-size:200% 200%;
+  animation: gradientShift 6s ease infinite;
 }
-.menu-buttons button:hover::before{
-  opacity:1;
-  transform: rotate(25deg) translateX(40%);
+@keyframes gradientShift{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
 }
-.menu-buttons button:hover{
-  transform: translateY(-6px);
-  filter: drop-shadow(0 0 16px rgba(255,90,140,0.6));
-  animation: gradientShift 2.5s linear infinite;
+.card.show{opacity:1; transform:translateY(0);}
+.card:active{transform:scale(.975);}
+.card:hover{
+  transform:translateY(-6px) rotateX(3deg) rotateY(3deg) scale(1.05);
+  box-shadow:0 16px 32px rgba(0,0,0,0.2);
+  background:linear-gradient(145deg,#f9f9f9,#dfe3ed);
 }
-.menu-buttons button:active{
-  transform: scale(.94);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.36);
-}
-.settings-grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:10px;
-}
-.settings-grid label{
-  display:flex;
-  flex-direction:column;
-  color:#e6eef8;
-  font-size:13px;
-}
-.settings-grid input[type=color], .settings-grid select{
-  padding:8px;
-  border-radius:8px;
-  border:0;
-}
-#board{
-  display:grid;
-  gap:12px;
-  margin-top:16px;
-  justify-content:center;
-  align-items:center;
-  transition: all .35s ease;
-}
-.cell{
-  background: rgba(255,255,255,0.96);
-  color:#111;
-  height:88px;
-  width:88px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.image-box{
+  width:100%;
+  height:130px;
   border-radius:12px;
-  font-weight:900;
-  font-size:3.6rem;
-  transition: transform .25s, box-shadow .25s;
-  user-select:none;
-  -webkit-user-select:none;
-  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:6px;
+  overflow:hidden;
 }
-.cell:hover{ transform: translateY(-6px); box-shadow:0 14px 32px rgba(0,0,0,0.25); }
-#status{ margin-top:12px; font-size:18px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.35) }
-#scoreboard{ margin-top:8px; font-weight:800; color:#fff }
-#line{ position:absolute; height:6px; background:gold; display:none; z-index:3; border-radius:4px; transform-origin:left center; transition: all .5s ease; }
-#historyList{ max-height:220px; overflow:auto; padding:0; margin-top:8px; }
-#historyList li{ list-style:none; background: rgba(255,255,255,0.04); padding:8px; border-radius:8px; margin-bottom:6px; color:#eaf2ff }
-.theme-classic{ background: linear-gradient(135deg,#ff9a9e,#fad0c4) }
-.theme-dark{ background: linear-gradient(135deg,#232526,#414345) }
-.theme-neon{ background: linear-gradient(135deg,#00f260,#0575e6) }
-.theme-cyber{ background: linear-gradient(135deg,#00f0ff,#7b00ff) }
-.theme-cyber .cell{
-  background: rgba(0,0,0,0.6);
-  border:1px solid rgba(0,255,255,0.12);
-  box-shadow:0 0 14px var(--neon), inset 0 0 8px rgba(0,255,255,0.06);
-  color: var(--neon);
+.label{font-weight:600;font-size:18px;margin-top:6px;}
+.page{display:none;}
+.active{display:block;}
+.iframe-wrap{width:100%;height:70vh;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.06);position:relative;}
+.back{display:inline-block;margin:12px 6px 30px 6px;padding:8px 14px;border-radius:10px;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;cursor:pointer;}
+.fullscreen-btn{display:inline-block;margin:12px 0 20px 0;background:var(--accent);color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer; font-weight:600;}
+@media(max-width:600px){.card{width:46%;}}
+#splash{
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:linear-gradient(135deg,#fdfbfb,#ebedee);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  opacity:1;
 }
-.theme-cyber button{
-  background: rgba(0,0,0,0.45);
-  border:1px solid rgba(0,255,255,0.5);
-  box-shadow: 0 0 16px var(--neon);
-}
-.theme-cyberglass{
-  background: linear-gradient(135deg, rgba(0,255,255,0.08), rgba(0,0,80,0.28));
-  backdrop-filter: blur(18px) saturate(160%);
-}
-.theme-cyberglass .cell{
-  background: rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 6px 18px rgba(0,255,255,0.06), inset 0 0 10px rgba(255,255,255,0.03);
-}
-.ripple{
-  position:absolute;
-  width:12px;
-  height:12px;
-  background: rgba(255,255,255,0.75);
-  border-radius:50%;
-  transform: translate(-50%, -50%) scale(0);
-  animation: rippleAnim .6s ease-out forwards;
-  pointer-events:none;
-}
-@keyframes rippleAnim{ to { transform: translate(-50%, -50%) scale(12); opacity:0 } }
-.spinCell{ animation: spinClick .35s ease forwards; }
-@keyframes spinClick{ from { transform: rotate(0) scale(1) } to { transform: rotate(360deg) scale(1.15) } }
-.winShake{ animation: winShake .5s ease; }
-@keyframes winShake{
-  0%,100%{ transform: translate(0) }
-  20%{ transform: translate(-8px,0) }
-  40%{ transform: translate(8px,0) }
-  60%{ transform: translate(-6px,0) }
-  80%{ transform: translate(6px,0) }
-}
-.burst{
-  position:absolute;
-  width:20px;height:20px;border-radius:50%;
-  background: radial-gradient(circle, rgba(255,255,255,1), rgba(255,255,255,0));
-  animation: burstAnim .6s ease-out forwards;
-  pointer-events:none;
-}
-@keyframes burstAnim{ 0%{ transform: translate(-50%, -50%) scale(.2); opacity:1 } 100%{ transform: translate(-50%, -50%) scale(8); opacity:0 } }
-.fireWin{ animation: fireFX .8s ease-in-out; }
-@keyframes fireFX{ 0%{ filter: drop-shadow(0 0 0px orange) } 50%{ filter: drop-shadow(0 0 22px red) } 100%{ filter: drop-shadow(0 0 0px orange) } }
-.waveFX{ animation: waveScreen 6s ease-in-out infinite; }
-@keyframes waveScreen{ 0%{ transform: scale(1) } 50%{ transform: scale(1.01) } 100%{ transform: scale(1) } }
-@keyframes gradientShift{ 0%{ filter: hue-rotate(0deg) } 100%{ filter: hue-rotate(360deg) } }
-.turnPulse{ animation: pulseTurn 1s ease-in-out infinite; }
-@keyframes pulseTurn{ 0%{ transform: scale(1); filter: drop-shadow(0 0 0px #fff) } 50%{ transform: scale(1.12); filter: drop-shadow(0 0 18px #fff) } 100%{ transform: scale(1); filter: drop-shadow(0 0 0px #fff) } }
-@keyframes fadeSlide{ from{ opacity:0; transform: translateY(20px) } to{ opacity:1; transform: translateY(0) } }
-@keyframes fadeSlideOut{ from{ opacity:1; transform: translateY(0) } to{ opacity:0; transform: translateY(20px) } }
-@media (max-width: 520px){
-  .container{ padding:8px }
-  .menu-buttons button{ font-size:15px; padding:12px; border-radius:14px }
-  .cell{ width:72px; height:72px; font-size:2.6rem; border-radius:10px }
-  #settings{ width:92% }
-}
-.hidden{ display:none !important }
+#splash.hidden{opacity:0; pointer-events:none; transition:opacity 0.8s ease;}
+.logo-container {display:flex; align-items:center; font-size:72px; font-weight:bold;}
+.icon-box {display:flex; justify-content:center; align-items:center; width:100px; height:100px; border:8px solid #007bff; border-radius:20px; margin-left:15px; color:#007bff; animation: bounce 1.2s infinite alternate;}
+@keyframes bounce{0% {transform:scale(1) translateY(0);} 50% {transform:scale(1.1) translateY(-12px);} 100% {transform:scale(1) translateY(0);}}
+.text-arvin{color:#102341; letter-spacing:2px; text-shadow:0 2px 6px rgba(0,0,0,0.2);}
+.card#card1 .cell{transition: transform 0.3s, box-shadow 0.3s, background 0.3s;}
+.card#card1:hover .cell{transform: scale(1.1); box-shadow: 0 4px 8px rgba(0,0,0,0.2); filter: brightness(1.1);}
+.card#card2:hover svg{transform: scale(1.05) rotate(-2deg); transition: transform 0.3s;}
+.card#card2 svg{transition: transform 0.3s;}
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>دوز</h1>
 
-  <div id="menu" class="card" style="display:flex;flex-direction:column;animation:fadeSlide .45s ease;">
-    <div class="menu-buttons">
-      <button id="btnHuman">بازی دو نفره</button>
-      <button id="btnAI">بازی با ربات</button>
-      <button id="btnSettings">شخصی سازی </button>
-      <button id="btnHistory">تاریخچه</button>
-    </div>
+<div id="splash">
+  <div class="logo-container">
+    <div class="icon-box">&lt;/&gt;</div>
+    <div class="text-arvin">ARVIN</div>
   </div>
-
-  <div id="settings" class="card" style="display:flex;flex-direction:column" >
-    <div class="settings-grid">
-      <label>اندازه جدول
-        <select id="boardSize">
-          <option value="3">۳×۳</option>
-          <option value="4">۴×۴</option>
-          <option value="5">۵×۵</option>
-        </select>
-      </label>
-
-      <label>سختی ربات
-        <select id="difficulty">
-          <option value="easy">آسان</option>
-          <option value="medium">متوسط</option>
-          <option value="hard">سخت</option>
-        </select>
-      </label>
-
-      <label>رنگ X<input type="color" id="colorX"></label>
-      <label>رنگ O<input type="color" id="colorO"></label>
-
-      <label>پوسته
-        <select id="theme">
-          <option value="classic">کلاسیک</option>
-          <option value="dark">تاریک</option>
-          <option value="neon">نئون</option>
-          <option value="cyber">نئون سایبر</option>
-          <option value="cyberglass">CyberGlass</option>
-        </select>
-      </label>
-
-      <label>نمایش
-        <select id="symbolMode">
-          <option value="classic">X/O</option>
-          <option value="emoji">🎯/🎮</option>
-          <option value="emoji2">❤️/💎</option>
-        </select>
-      </label>
-    </div>
-
-    <label style="margin-top:10px">
-      <input type="checkbox" id="musicToggle"> موسیقی پس‌زمینه
-    </label>
-
-    <div style="display:flex;gap:12px;margin-top:12px">
-      <button id="btnBack">بازگشت به منو</button>
-      <button id="btnApply">اعمال و شروع</button>
-    </div>
-  </div>
-
-  <div id="game" class="card" style="display:flex;flex-direction:column">
-    <div id="boardWrapper" style="position:relative;display:flex;flex-direction:column;align-items:center">
-      <div id="board"></div>
-      <div id="line"></div>
-    </div>
-    <div id="status">وضعیت...</div>
-    <div id="scoreboard">X: 0 | O: 0</div>
-
-    <div style="display:flex; gap:14px; margin-top:16px;">
-      <button id="btnMenu">بازگشت به منو</button>
-      <button id="btnReset">بازنشانی بازی</button>
-      <button id="btnToggleMusic">پخش موسیقی</button>
-    </div>
-  </div>
-
-  <div id="history" class="card" style="display:flex;flex-direction:column">
-    <h3>تاریخچه بازی‌ها</h3>
-    <ul id="historyList"></ul>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button id="btnCloseHistory">بستن</button>
-    </div>
-  </div>
-
 </div>
 
-<audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
-<audio id="clickSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
-<audio id="winSound" src="https://actions.google.com/sounds/v1/cartoon/concussive_drum_hit.ogg"></audio>
+<div class="container">
+<header>
+  <h1 id="pagetitle">منوی بازی‌ها</h1>
+  <p>روی کارت بازی موردنظر کلیک کنید</p>
+</header>
 
-<script>
-var board = [];
-var currentPlayer = 'X';
-var gameOver = false;
-var boardElement = null;
-var playerColors = { X: '#ff3b3b', O: '#2b8cff' };
-var gameMode = 'human';
-var difficulty = 'easy';
-var boardSize = 3;
-var scores = { X: 0, O: 0 };
-var symbolMode = 'classic';
-var symbols = { X: 'X', O: 'O' };
-function $(id){return document.getElementById(id)}
-boardElement = $('board');
-var statusEl = $('status');
-var scoreboardEl = $('scoreboard');
-var lineEl = $('line');
-var bgMusic = $('bgMusic');
-var clickSound = $('clickSound');
-var winSound = $('winSound');
-function setTheme(name){
-  document.body.className = document.body.className.split(' ').filter(c=>!c.startsWith('theme-')).join(' ');
-  if(name) document.body.classList.add('theme-' + name);
-}
-function saveSettings(){try{localStorage.setItem('colorX', playerColors.X);localStorage.setItem('colorO', playerColors.O);localStorage.setItem('theme', $('theme').value);localStorage.setItem('symbolMode', symbolMode)}catch(e){}}
-function show(id){$(id).style.display='flex'}
-function hide(id){$(id).style.display='none'}
-function initUI(){
-  $('btnHuman').addEventListener('click', function(){ startGame('human') });
-  $('btnAI').addEventListener('click', function(){ startGame('ai') });
-  $('btnSettings').addEventListener('click', function(){ hide('menu'); show('settings') });
-  $('btnHistory').addEventListener('click', function(){ hide('menu'); show('history'); renderHistory() });
-  $('btnBack').addEventListener('click', function(){ hide('settings'); show('menu') });
-  $('btnApply').addEventListener('click', function(){ applySettings(); startGame(gameMode) });
-  $('btnMenu').addEventListener('click', function(){ hide('game'); show('menu') });
-  $('btnReset').addEventListener('click', function(){ resetGame() });
-  $('btnToggleMusic').addEventListener('click', function(){ toggleMusic(true) });
-  $('btnCloseHistory').addEventListener('click', function(){ hide('history'); show('menu') });
-  var cx = $('colorX'), co = $('colorO');
-  cx.value = playerColors.X; co.value = playerColors.O;
-  cx.addEventListener('change', function(){ playerColors.X = cx.value; createBoard() });
-  co.addEventListener('change', function(){ playerColors.O = co.value; createBoard() });
-  $('boardSize').addEventListener('change', function(){ boardSize = parseInt(this.value) || 3 });
-  $('difficulty').addEventListener('change', function(){ difficulty = this.value });
-  $('theme').addEventListener('change', function(){
-    var v = this.value;
-    if(v === 'cyberglass') setTheme('cyberglass');
-    else if(v === 'cyber') setTheme('cyber');
-    else setTheme(v);
-  });
-  $('symbolMode').addEventListener('change', function(){
-    symbolMode = this.value;
-    if(symbolMode === 'classic') symbols = { X: 'X', O: 'O' }
-    else if(symbolMode === 'emoji') symbols = { X: '🎯', O: '🎮' }
-    else if(symbolMode === 'emoji2') symbols = { X: '❤️', O: '💎' }
-    createBoard();
-  });
-  var sx = localStorage.getItem('colorX'), so = localStorage.getItem('colorO');
-  if(sx) playerColors.X = sx;
-  if(so) playerColors.O = so;
-  var th = localStorage.getItem('theme') || 'classic';
-  if(th === 'cyberglass') setTheme('cyberglass'); else setTheme(th);
-  var sm = localStorage.getItem('symbolMode') || 'classic';
-  symbolMode = sm;
-  if(symbolMode === 'classic') symbols = { X: 'X', O: 'O' };
-  else if(symbolMode === 'emoji') symbols = { X: '🎯', O: '🎮' };
-  else if(symbolMode === 'emoji2') symbols = { X: '❤️', O: '💎' };
-  var musicOn = (localStorage.getItem('musicOn') === 'true');
-  $('musicToggle') && ($('musicToggle').checked = musicOn);
-  hide('menu'); hide('settings'); hide('game'); hide('history'); show('menu');
-}
-function startGame(mode){ gameMode = mode || gameMode; boardSize = parseInt($('boardSize').value) || 3; board = Array(boardSize * boardSize).fill(''); currentPlayer = 'X'; gameOver = false; createBoard(); hide('menu'); hide('settings'); show('game'); updateStatus(); setTimeout(function(){ boardElement.classList.add('show') }, 60); }
-function resetGame(){ startGame(gameMode) }
-function createBoard(){
-  boardElement.innerHTML = '';
-  var size = Math.max(3, boardSize);
-  var cellPx = 88;
-  if(window.innerWidth < 520) cellPx = 72;
-  boardElement.style.gridTemplateColumns = 'repeat(' + size + ',' + cellPx + 'px)';
-  boardElement.style.gridTemplateRows = 'repeat(' + size + ',' + cellPx + 'px)';
-  for(var i=0;i<board.length;i++){
-    var d = document.createElement('div');
-    d.className = 'cell';
-    d.dataset.index = i;
-    d.textContent = board[i] ? symbols[ board[i] ] : '';
-    if(board[i]) d.style.color = playerColors[ board[i] ];
-    (function(idx, el){
-      el.addEventListener('click', function(e){
-        handleCellClick(idx, e, el);
-      });
-    })(i, d);
-    boardElement.appendChild(d);
-  }
-}
-function handleCellClick(index, event, el){
-  try{ clickSound.currentTime = 0; clickSound.play(); } catch(e){}
-  makeRipple(event, el);
-  el.classList.add('spinCell');
-  setTimeout(function(){ el.classList.remove('spinCell') }, 400);
-  if(board[index] || gameOver) return;
-  board[index] = currentPlayer;
-  createBoard();
-  if(checkWinner(currentPlayer)){
-    gameOver = true;
-    scores[currentPlayer] = (scores[currentPlayer]||0) + 1;
-    updateScoreboard();
-    statusEl.innerText = 'بازیکن ' + currentPlayer + ' برنده شد';
-    animateWinningCells(currentPlayer);
-    addHistory('بازیکن ' + currentPlayer + ' برد');
-    try{ winSound.currentTime = 0; winSound.play(); }catch(e){}
-    return;
-  }
-  if(board.indexOf('') === -1){
-    gameOver = true;
-    statusEl.innerText = 'بازی مساوی شد';
-    addHistory('بازی مساوی شد');
-    return;
-  }
-  currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
-  updateStatus();
-  if(gameMode === 'ai' && currentPlayer === 'O' && !gameOver){
-    setTimeout(aiMove, 380);
-  }
-}
-function makeRipple(event, target){
-  var r = document.createElement('span');
-  r.className = 'ripple';
-  var rect = target.getBoundingClientRect();
-  var x = (event.clientX || 0) - rect.left;
-  var y = (event.clientY || 0) - rect.top;
-  r.style.left = (x) + 'px';
-  r.style.top = (y) + 'px';
-  target.appendChild(r);
-  setTimeout(function(){ r.remove() }, 700);
-}
-function checkWinner(player){
-  var winLength = (boardSize === 3) ? 3 : ((boardSize === 4) ? 4 : 5);
-  var lines = [];
-  for(var r=0;r<boardSize;r++){
-    for(var c=0;c<=boardSize-winLength;c++){
-      var line = [];
-      for(var k=0;k<winLength;k++) line.push(r*boardSize + c + k);
-      lines.push(line);
-    }
-  }
-  for(var c=0;c<boardSize;c++){
-    for(var r=0;r<=boardSize-winLength;r++){
-      var line = [];
-      for(var k=0;k<winLength;k++) line.push((r+k)*boardSize + c);
-      lines.push(line);
-    }
-  }
-  for(var r=0;r<=boardSize-winLength;r++){
-    for(var c=0;c<=boardSize-winLength;c++){
-      var line = [];
-      for(var k=0;k<winLength;k++) line.push((r+k)*boardSize + (c+k));
-      lines.push(line);
-    }
-  }
-  for(var r=0;r<=boardSize-winLength;r++){
-    for(var c=winLength-1;c<boardSize;c++){
-      var line = [];
-      for(var k=0;k<winLength;k++) line.push((r+k)*boardSize + (c-k));
-      lines.push(line);
-    }
-  }
-  return lines.some(function(line){
-    return line.every(function(i){ return board[i] === player });
-  });
-}
-function animateWinningCells(player){
-  var winLen = (boardSize === 3) ? 3 : ((boardSize === 4) ? 4 : 5);
-  var lines = [];
-  for(var r=0;r<boardSize;r++){
-    for(var c=0;c<=boardSize-winLen;c++){
-      var line=[]; for(var k=0;k<winLen;k++) line.push(r*boardSize + c + k); lines.push(line);
-    }
-  }
-  for(var c=0;c<boardSize;c++){
-    for(var r=0;r<=boardSize-winLen;r++){
-      var line=[]; for(var k=0;k<winLen;k++) line.push((r+k)*boardSize + c); lines.push(line);
-    }
-  }
-  for(var r=0;r<=boardSize-winLen;r++){
-    for(var c=0;c<=boardSize-winLen;c++){
-      var line=[]; for(var k=0;k<winLen;k++) line.push((r+k)*boardSize + (c+k)); lines.push(line);
-    }
-  }
-  for(var r=0;r<=boardSize-winLen;r++){
-    for(var c=winLen-1;c<boardSize;c++){
-      var line=[]; for(var k=0;k<winLen;k++) line.push((r+k)*boardSize + (c-k)); lines.push(line);
-    }
-  }
-  var pattern = lines.find(function(l){
-    return l.every(function(i){ return board[i] === player });
-  });
-  if(pattern){
-    pattern.forEach(function(i){
-      var cel = boardElement.children[i];
-      if(cel){
-        cel.classList.add('winShake');
-        cel.classList.add('fireWin');
-        setTimeout(function(){ cel.classList.remove('winShake'); }, 900);
-      }
-    });
-    try{
-      var first = boardElement.children[pattern[0]].getBoundingClientRect();
-      var last  = boardElement.children[pattern[pattern.length-1]].getBoundingClientRect();
-      var brect = boardElement.getBoundingClientRect();
-      var width = Math.hypot(last.x - first.x, last.y - first.y) + 50;
-      lineEl.style.display = 'block';
-      lineEl.style.width = width + 'px';
-      lineEl.style.left = (first.x - brect.x + (first.width/2) - 20) + 'px';
-      lineEl.style.top  = (first.y - brect.y + (first.height/2) - 6) + 'px';
-      var angle = Math.atan2(last.y - first.y, last.x - first.x) * (180/Math.PI);
-      lineEl.style.transform = 'rotate(' + angle + 'deg)';
-      setTimeout(function(){ lineEl.style.display = 'none'; }, 1600);
-    }catch(e){}
-    var midIdx = pattern[Math.floor(pattern.length/2)];
-    var midRect = boardElement.children[midIdx].getBoundingClientRect();
-    var b = document.createElement('div'); b.className = 'burst';
-    b.style.left = (midRect.left + midRect.width/2) + 'px';
-    b.style.top  = (midRect.top  + midRect.height/2) + 'px';
-    document.body.appendChild(b);
-    setTimeout(function(){ b.remove(); }, 800);
-    document.body.classList.add('waveFX');
-    setTimeout(function(){ document.body.classList.remove('waveFX'); }, 1200);
-  }
-}
-function updateStatus(){
-  if(gameOver) return;
-  statusEl.innerHTML = 'نوبت بازیکن <span id="turnMark">' + symbols[currentPlayer] + '</span>';
-  var el = $('turnMark');
-  if(el) el.classList.add('turnPulse');
-}
-function updateScoreboard(){
-  scoreboardEl.innerText = 'X: ' + (scores.X||0) + ' | O: ' + (scores.O||0);
-}
-function addHistory(text){
-  try{
-    var h = JSON.parse(localStorage.getItem('history') || '[]');
-    var dt = new Date();
-    h.unshift(dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString() + ': ' + text);
-    if(h.length > 50) h.pop();
-    localStorage.setItem('history', JSON.stringify(h));
-  }catch(e){}
-}
-function renderHistory(){
-  var list = $('historyList'); list.innerHTML = '';
-  var h = JSON.parse(localStorage.getItem('history') || '[]');
-  h.forEach(function(it){
-    var li = document.createElement('li'); li.innerText = it; list.appendChild(li);
-  });
-}
-function applySettings(){
-  playerColors.X = $('colorX').value || playerColors.X;
-  playerColors.O = $('colorO').value || playerColors.O;
-  symbolMode = $('symbolMode').value || symbolMode;
-  if(symbolMode === 'classic') symbols = { X: 'X', O: 'O' };
-  else if(symbolMode === 'emoji') symbols = { X: '🎯', O: '🎮' };
-  else if(symbolMode === 'emoji2') symbols = { X: '❤️', O: '💎' };
-  var th = $('theme').value;
-  if(th === 'cyberglass') setTheme('cyberglass');
-  else if(th === 'cyber') setTheme('cyber');
-  else setTheme(th);
-  saveSettings();
-}
-function toggleMusic(forceUser){
-  try{
-    if(bgMusic.paused){
-      bgMusic.currentTime = 0;
-      bgMusic.play();
-      $('btnToggleMusic').innerText = 'پایان موسیقی';
-      localStorage.setItem('musicOn','true');
-      $('musicToggle') && ($('musicToggle').checked = true);
-    } else {
-      bgMusic.pause();
-      $('btnToggleMusic').innerText = 'پخش موسیقی';
-      localStorage.setItem('musicOn','false');
-      $('musicToggle') && ($('musicToggle').checked = false);
-    }
-  }catch(e){}
-}
-document.addEventListener('click', function(e){
-  var t = e.target;
-  if(t && t.tagName !== 'BUTTON'){
-    var pb = t.closest && t.closest('button');
-    if(pb) t = pb;
-  }
-  if(t && t.tagName === 'BUTTON'){
-    var rect = t.getBoundingClientRect();
-    var r = document.createElement('span');
-    r.className = 'ripple';
-    var x = (e.clientX || 0) - rect.left;
-    var y = (e.clientY || 0) - rect.top;
-    r.style.left = x + 'px';
-    r.style.top = y + 'px';
-    t.appendChild(r);
-    setTimeout(function(){ r.remove() }, 700);
-    t.style.transform = 'scale(.98)';
-    setTimeout(function(){ t.style.transform = 'scale(1)' }, 160);
-    try{
-      if( localStorage.getItem('musicOn') === 'true' && bgMusic.paused ){
-        bgMusic.play().catch(function(){});
-      }
-    }catch(e){}
-  }
-});
-boardElement.addEventListener('click', function(e){
-  if(!e.target.classList || !e.target.classList.contains('cell')) return;
-  var c = e.target;
-  var rect = c.getBoundingClientRect();
-  var b = document.createElement('div'); b.className = 'burst';
-  b.style.left = (rect.left + rect.width/2) + 'px';
-  b.style.top  = (rect.top  + rect.height/2) + 'px';
-  document.body.appendChild(b);
-  setTimeout(function(){ b.remove() }, 700);
-});
-function aiMove(){
-  var empty = board.map(function(v,i){ return v === '' ? i : null }).filter(function(v){ return v !== null });
-  if(empty.length === 0) return;
-  var move;
-  if(difficulty === 'easy'){
-    move = empty[Math.floor(Math.random() * empty.length)];
-  } else if(difficulty === 'medium'){
-    move = mediumAI(empty);
-  } else {
-    move = hardAI();
-  }
-  setTimeout(function(){ 
-    var fake = { clientX: 44, clientY: 44 };
-    handleCellClick(move, fake, boardElement.children[move]);
-  }, 420);
-}
-function mediumAI(empty){
-  for(var idx=0; idx<empty.length; idx++){
-    var i = empty[idx];
-    board[i] = currentPlayer;
-    if(checkWinner(currentPlayer)){ board[i] = ''; return i }
-    board[i] = (currentPlayer === 'X') ? 'O' : 'X';
-    if(checkWinner((currentPlayer === 'X') ? 'O' : 'X')){ board[i] = ''; return i }
-    board[i] = '';
-  }
-  return empty[Math.floor(Math.random() * empty.length)];
-}
-function hardAI(){
-  var bestScore = -Infinity, move = -1;
-  for(var i=0;i<board.length;i++){
-    if(board[i] === ''){
-      board[i] = 'O';
-      var score = minimax(board, 0, false);
-      board[i] = '';
-      if(score > bestScore){ bestScore = score; move = i; }
-    }
-  }
-  return move;
-}
-function minimax(nb, depth, isMaximizing){
-  if(checkWinner('O')) return 10 - depth;
-  if(checkWinner('X')) return depth - 10;
-  if(nb.indexOf('') === -1) return 0;
-  if(isMaximizing){
-    var best = -Infinity;
-    for(var i=0;i<nb.length;i++){
-      if(nb[i] === ''){
-        nb[i] = 'O';
-        var s = minimax(nb, depth+1, false);
-        nb[i] = '';
-        best = Math.max(s, best);
-      }
-    }
-    return best;
-  } else {
-    var best = Infinity;
-    for(var i=0;i<nb.length;i++){
-      if(nb[i] === ''){
-        nb[i] = 'X';
-        var s = minimax(nb, depth+1, true);
-        nb[i] = '';
-        best = Math.min(s, best);
-      }
-    }
-    return best;
-  }
-}
-window.addEventListener('load', function(){
-  initUI();
-  try{
-    if(localStorage.getItem('colorX')) $('colorX').value = localStorage.getItem('colorX');
-    if(localStorage.getItem('colorO')) $('colorO').value = localStorage.getItem('colorO');
-  }catch(e){}
-  show('menu');
-});
-window.addEventListener('keydown', function(e){
-  if(e.key === 'Escape'){
-    if(getComputedStyle($('game')).display !== 'none'){ hide('game'); show('menu') }
-  }
-});
-</script>
+<div id="menu" class="active page">
+  <div class="menu">
+    <!-- کارت دوز -->
+    <div class="card" id="card1" onclick="window.open('https://eitaa.com/store_app/app?startapp=app_126&btn=مرکز.برنامک.های.ایتا','_blank')">
+      <div class="image-box">
+        <div class="board" style="display:grid; grid-template-columns:repeat(3,50px); grid-template-rows:repeat(3,50px); gap:5px; background:#c79a5d; padding:8px; border-radius:8px; box-shadow:0 0 5px #6a4b2c; transform:scale(0.85);">
+          <div class="cell o" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#1da3dd;text-shadow:1px 1px 2px #0b5f8a">O</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
+          <div class="cell o" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#1da3dd;text-shadow:1px 1px 2px #0b5f8a">O</div>
+          <div class="cell o" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#1da3dd;text-shadow:1px 1px 2px #0b5f8a">O</div>
+          <div class="cell o" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#1da3dd;text-shadow:1px 1px 2px #0b5f8a">O</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
+        </div>
+      </div>
+      <div class="label">دوز</div>
+    </div>
 
-<!-- filler comments for length -->
-<!-- filler 1 --><!-- filler 2 --><!-- filler 3 --><!-- filler 4 --><!-- filler 5 --><!-- filler 6 --><!-- filler 7 --><!-- filler 8 --><!-- filler 9 --><!-- filler 10 -->
-	<style>
-#gameFooter {
+    <!-- کارت 2048 -->
+    <div class="card" id="card2" onclick="handle2048()">
+      <div class="image-box" style="padding:0;">
+        <svg width="100%" height="130px" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#f9d342;stop-opacity:1"/>
+              <stop offset="100%" style="stop-color:#f7c948;stop-opacity:1"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="200" height="200" rx="25" ry="25" fill="url(#grad)"/>
+          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="white">2048</text>
+        </svg>
+      </div>
+      <div class="label">۲۰۴۸</div>
+    </div>
+
+    <!-- کارت به زودی -->
+    <div class="card" id="card3" onclick="openPage('comingsoon','به‌زودی')">
+      <div class="image-box">به‌زودی</div>
+      <div class="label">به‌زودی</div>
+    </div>
+  </div>
+</div>
+
+<!-- صفحات داخلی -->
+<div id="game2" class="page">
+  <button class="fullscreen-btn" onclick="toggleFull('wrap2')">تمام صفحه</button>
+  <div class="iframe-wrap" id="wrap2">
+    <iframe src="https://pixelforge-ux.github.io/2048/" style="width:100%;height:100%;border:0;" allowfullscreen></iframe>
+  </div>
+  <div style="text-align:center"><a class="back" onclick="backMenu()">بازگشت</a></div>
+</div>
+
+<div id="comingsoon" class="page">
+  <button class="fullscreen-btn" onclick="toggleFull('wrap3')">تمام صفحه</button>
+  <div class="iframe-wrap" id="wrap3">
+    <iframe srcdoc='
+    <!DOCTYPE html><html lang="fa"><head><meta charset="UTF-8"><title>به زودی</title></head>
+    <body style="margin:0; height:100vh; display:flex; justify-content:center; align-items:center; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); font-family:sans-serif; overflow:hidden;">
+    <h1 style="font-size:4rem;color:#fff;letter-spacing:6px;animation:glow 2s infinite alternate;">به‌زودی...</h1>
+    <style>@keyframes glow{from{text-shadow:0 0 10px #ffbb33,0 0 20px #ff9800,0 0 30px #ffc107;}to{text-shadow:0 0 25px #ffd700,0 0 40px #ffa500,0 0 60px #ffeb3b;}}</style>
+    </body></html>' style="width:100%;height:100%;border:0;" allowfullscreen></iframe>
+  </div>
+  <div style="text-align:center"><a class="back" onclick="backMenu()">بازگشت</a></div>
+</div>
+
+<!-- Popup 2048 -->
+<div id="popup" style="
   position: fixed;
-  bottom: 4px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-family: 'Vazirmatn', sans-serif;
-  font-size: 14px;
-  pointer-events: none;
-  z-index: 9999;
-  text-shadow: 0 0 6px currentColor, 0 0 12px currentColor, 0 0 18px currentColor;
-  animation: neonGlow 2.5s ease-in-out infinite alternate, flicker 1.8s linear infinite;
-}
-@keyframes neonGlow {
-  0% { text-shadow: 0 0 6px currentColor, 0 0 12px currentColor, 0 0 18px currentColor; }
-  50% { text-shadow: 0 0 12px currentColor, 0 0 24px currentColor, 0 0 36px currentColor; }
-  100% { text-shadow: 0 0 6px currentColor, 0 0 12px currentColor, 0 0 18px currentColor; }
-}
-@keyframes flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-  20%, 22%, 24%, 55% { opacity: 0.6; }
-}
+  inset: 0;
+  display: none;
+  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.55);
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+">
+  <div style="
+    background: linear-gradient(145deg,#ffffff,#e9e9e9);
+    padding: 28px 35px;
+    border-radius: 18px;
+    text-align: center;
+    width: 80%;
+    max-width: 360px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    animation: pop 0.35s ease;
+  ">
+    <h2 style="margin:0 0 12px 0;color:#333;font-size:24px;font-weight:800;">
+      محدودیت فعال شد
+    </h2>
+    <p style="font-size:17px;color:#444;margin:0 0 22px 0;">
+      تا انتشار در ایتا صبر کنید
+    </p>
+    <button onclick="closePopup()" style="
+      padding: 10px 22px;
+      background:#2b6cb0;
+      color:white;
+      border:0;
+      border-radius:10px;
+      font-size:16px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    ">باشه</button>
+  </div>
+</div>
+
+<style>
+@keyframes pop {from {transform:scale(.7); opacity:0;} to {transform:scale(1); opacity:1;}}
 </style>
 
-<footer id="gameFooter">کاری از سید آروین موسوی</footer>
-
 <script>
-function updateFooterTheme() {
-  const footer = document.getElementById('gameFooter');
-  const bodyClass = document.body.className;
-
-  let color = '#333'; // پیش‌فرض روشن برای تم‌های سبک
-  if(bodyClass.includes('theme-dark')) color = '#fff';
-  else if(bodyClass.includes('theme-neon')) color = '#0ff';
-  else if(bodyClass.includes('theme-cyber')) color = '#0ff';
-  else if(bodyClass.includes('theme-cyberglass')) color = '#0ff';
-  else if(bodyClass.includes('theme-classic')) color = '#ff3b3b';
-
-  footer.style.color = color;
-}
-
-// هنگام تغییر تم
-document.getElementById('theme').addEventListener('change', function(){
-  setTimeout(updateFooterTheme, 50);
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('hidden');
+    const cards=document.querySelectorAll('.card');
+    cards.forEach((c,i)=>{
+      setTimeout(()=>{c.classList.add('show');}, i*200);
+    });
+  },2500);
 });
 
-// هنگام بارگذاری صفحه
-window.addEventListener('load', updateFooterTheme);
+function openPage(id, title){
+  document.getElementById('menu').classList.remove('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('pagetitle').textContent = title;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function backMenu(){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('menu').classList.add('active');
+  document.getElementById('pagetitle').textContent = 'منوی بازی‌ها';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleFull(id){
+  const elem = document.getElementById(id);
+  if (!document.fullscreenElement) {
+    elem.requestFullscreen().catch(err=>alert("فول‌اسکرین پشتیبانی نمی‌شود!"));
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+// --------------- 2048 timer & popup ---------------
+function handle2048(){
+    let locked = localStorage.getItem("2048_locked");
+    let start = localStorage.getItem("2048_start");
+
+    if(locked === "1"){
+        showPopup();
+        return;
+    }
+
+    if(!start){
+        localStorage.setItem("2048_start", Date.now());
+        openPage('game2','2048');
+        return;
+    }
+
+    let passed = (Date.now() - Number(start)) / 1000; // seconds
+    if(passed >= 300){  // 5 minutes
+        localStorage.setItem("2048_locked", "1");
+        showPopup();
+    } else {
+        openPage('game2','2048');
+    }
+}
+
+function showPopup(){
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display = "none";
+}
 </script>
 </body>
 </html>

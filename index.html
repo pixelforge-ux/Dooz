@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- SDK ایتا -->
 <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
+
 <title>منوی بازی‌ها</title>
+
 <style>
 :root{
   --card-bg:#fff;
@@ -98,6 +102,7 @@ p{margin:6px 0 12px 0;font-size:16px;}
 </head>
 <body>
 
+<!-- Splash -->
 <div id="splash">
   <div class="logo-container">
     <div class="icon-box">&lt;/&gt;</div>
@@ -114,7 +119,7 @@ p{margin:6px 0 12px 0;font-size:16px;}
 <div id="menu" class="active page">
   <div class="menu">
 
-    <!-- کارت دوز (اصلی + دیپ‌لینک واقعی + fallback) -->
+    <!-- کارت دوز با SDK صحیح -->
     <div class="card" id="card1" onclick="openDoz()">
       <div class="image-box">
         <div class="board" style="display:grid; grid-template-columns:repeat(3,50px); grid-template-rows:repeat(3,50px); gap:5px; background:#c79a5d; padding:8px; border-radius:8px; box-shadow:0 0 5px #6a4b2c; transform:scale(0.85);">
@@ -143,7 +148,7 @@ p{margin:6px 0 12px 0;font-size:16px;}
       <div class="label">۲۰۴۸</div>
     </div>
 
-    <!-- به زودی -->
+    <!-- کارت به زودی -->
     <div class="card" id="card3" onclick="openPage('comingsoon','به‌زودی')">
       <div class="image-box">به‌زودی</div>
       <div class="label">به‌زودی</div>
@@ -151,7 +156,6 @@ p{margin:6px 0 12px 0;font-size:16px;}
 
   </div>
 </div>
-
 
 <!-- صفحه 2048 -->
 <div id="game2" class="page">
@@ -162,18 +166,18 @@ p{margin:6px 0 12px 0;font-size:16px;}
   <div style="text-align:center"><a class="back" onclick="backMenu()">بازگشت</a></div>
 </div>
 
-<!-- به زودی -->
+<!-- صفحه به‌زودی -->
 <div id="comingsoon" class="page">
   <button class="fullscreen-btn" onclick="toggleFull('wrap3')">تمام صفحه</button>
   <div class="iframe-wrap" id="wrap3">
     <iframe srcdoc='
-    <!DOCTYPE html><html><body style="margin:0;display:flex;justify-content:center;align-items:center;height:100vh;background:black;color:white;font-size:50px;">به‌زودی...</body></html>' allowfullscreen style="width:100%;height:100%;border:0;"></iframe>
+    <html><body style="margin:0;display:flex;justify-content:center;align-items:center;height:100vh;background:black;color:white;font-size:60px;">به‌زودی...</body></html>'
+    style="width:100%;height:100%;border:0;"></iframe>
   </div>
   <div style="text-align:center"><a class="back" onclick="backMenu()">بازگشت</a></div>
 </div>
 
-
-<!-- پاپ آپ -->
+<!-- پاپ‌آپ -->
 <div id="popup" style="position: fixed; inset: 0; display: none; backdrop-filter: blur(6px); background: rgba(0,0,0,0.55); justify-content: center; align-items: center; z-index: 999999;">
   <div style="background:#fff;padding:28px 35px;border-radius:18px;text-align:center;width:80%;max-width:360px;">
     <h2 style="margin:0 0 12px 0;color:#333;font-size:24px;font-weight:800;">محدودیت فعال شد</h2>
@@ -183,28 +187,26 @@ p{margin:6px 0 12px 0;font-size:16px;}
 </div>
 
 <script>
-/* Splash */
 window.addEventListener('load',()=>{
   setTimeout(()=>{
     document.getElementById('splash').classList.add('hidden');
-    document.querySelectorAll('.card').forEach((c,i)=>setTimeout(()=>c.classList.add('show'), i*200));
+    const cards=document.querySelectorAll('.card');
+    cards.forEach((c,i)=>setTimeout(()=>{c.classList.add('show');}, i*200));
   },2500);
 });
 
-/* Page System */
-function openPage(id,title){
+/* Page navigation */
+function openPage(id, title){
   document.getElementById('menu').classList.remove('active');
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.getElementById('pagetitle').textContent = title;
 }
-
 function backMenu(){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('menu').classList.add('active');
   document.getElementById('pagetitle').textContent = 'منوی بازی‌ها';
 }
-
 function toggleFull(id){
   const elem = document.getElementById(id);
   if (!document.fullscreenElement) elem.requestFullscreen();
@@ -228,20 +230,21 @@ function handle2048(){
     if(passed >= 300){
         localStorage.setItem("2048_locked", "1");
         showPopup();
-    } else openPage('game2','2048');
+    } else {
+        openPage('game2','2048');
+    }
 }
 
 function showPopup(){ document.getElementById("popup").style.display = "flex"; }
 function closePopup(){ document.getElementById("popup").style.display = "none"; }
 
 
-/* 🚀 لینک دوز: دیپ‌لینک ایتا + fallback وب */
+/* 🔥 باز کردن درست کارت دوز با SDK — بدون خطا */
 function openDoz(){
-    const deep = "eitaa://store_app/app?startapp=app_126";
-    const web  = "https://eitaa.com/store_app/app?startapp=app_126&btn=مرکز.برنامک.های.ایتا";
-
-    window.location.href = deep;
-    setTimeout(()=>{ window.location.href = web; }, 900);
+    EitaaWebApp.openLink(
+        "https://eitaa.com/store_app/app?startapp=app_126",
+        { try_instant_view: false }
+    );
 }
 
 /* SDK Ready */

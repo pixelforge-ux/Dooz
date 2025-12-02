@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- SDK رسمی ایتا -->
+<!-- SDK رسمی ایتا (باید قبل از هرچیز لود شود) -->
 <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
 
 <title>منوی بازی‌ها</title>
 
 <style>
-/* استایل‌ها عین نسخهٔ اصلی هستند — هیچ تغییری داده نشده */
+/* ———— تمام استایل‌های نسخه اصلی ———— */
+
 :root{
   --card-bg:#fff;
   --page-bg:#f0f2f5;
@@ -119,7 +120,7 @@ p{margin:6px 0 12px 0;font-size:16px;}
 <div id="menu" class="active page">
   <div class="menu">
 
-    <!-- کارت دوز (گرافیک اصلی + SDK صحیح) -->
+    <!-- کارت دوز (دقیقاً نسخه اصلی تو) -->
     <div class="card" id="card1" onclick="openDoz()">
       <div class="image-box">
         <div class="board" style="display:grid; grid-template-columns:repeat(3,50px); grid-template-rows:repeat(3,50px); gap:5px; background:#c79a5d; padding:8px; border-radius:8px; box-shadow:0 0 5px #6a4b2c; transform:scale(0.85);">
@@ -148,7 +149,6 @@ p{margin:6px 0 12px 0;font-size:16px;}
       <div class="label">۲۰۴۸</div>
     </div>
 
-    <!-- به‌زودی -->
     <div class="card" onclick="openPage('comingsoon','به‌زودی')">
       <div class="image-box">به‌زودی</div>
       <div class="label">به‌زودی</div>
@@ -178,6 +178,12 @@ p{margin:6px 0 12px 0;font-size:16px;}
 </div>
 
 <script>
+/* فعال شدن SDK بعد از لود کامل */
+document.addEventListener("DOMContentLoaded", () => {
+    EitaaWebApp.ready();
+    EitaaWebApp.expand();
+});
+
 /* Splash Animation */
 window.onload = ()=>{
   setTimeout(()=>{
@@ -200,24 +206,20 @@ function backMenu(){
   document.getElementById("pagetitle").textContent = "منوی بازی‌ها";
 }
 
-/* Fullscreen */
+/* Fullscreen Toggle */
 function toggleFull(id){
   let el=document.getElementById(id);
   if(!document.fullscreenElement) el.requestFullscreen();
   else document.exitFullscreen();
 }
 
-/* ⭐ باز کردن کارت دوز در مرورگر خارجی */
+/* ⭐ باز کردن دوز در مرورگر خارجی (کاملاً طبق SDK ایتا) */
 function openDoz(){
     EitaaWebApp.openLink(
         "https://eitaa.com/store_app/app?startapp=app_126",
         { try_instant_view:false }
     );
 }
-
-/* 🔰 راه‌اندازی SDK — نسخه صحیح */
-EitaaWebApp.ready();
-EitaaWebApp.expand();
 
 </script>
 

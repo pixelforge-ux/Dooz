@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- اتصال SDK ایتا -->
 <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
+
 <title>منوی بازی‌ها</title>
+
 <style>
 :root{
   --card-bg:#fff;
@@ -113,19 +117,20 @@ p{margin:6px 0 12px 0;font-size:16px;}
 
 <div id="menu" class="active page">
   <div class="menu">
-    <!-- کارت دوز -->
-    <div class="card" id="card1" onclick="window.open('https://eitaa.com/store_app/app?startapp=app_126&btn=مرکز.برنامک.های.ایتا','_blank')">
+
+    <!-- کارت دوز (لینک اصلاح شده مخصوص ایتا) -->
+    <div class="card" id="card1" onclick="openDoz()">
       <div class="image-box">
         <div class="board" style="display:grid; grid-template-columns:repeat(3,50px); grid-template-rows:repeat(3,50px); gap:5px; background:#c79a5d; padding:8px; border-radius:8px; box-shadow:0 0 5px #6a4b2c; transform:scale(0.85);">
-          <div class="cell o" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#1da3dd;text-shadow:1px 1px 2px #0b5f8a">O</div>
-          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
-          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
-          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
-          <div class="cell o" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#1da3dd;text-shadow:1px 1px 2px #0b5f8a">O</div>
-          <div class="cell o" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#1da3dd;text-shadow:1px 1px 2px #0b5f8a">O</div>
-          <div class="cell o" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#1da3dd;text-shadow:1px 1px 2px #0b5f8a">O</div>
-          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
-          <div class="cell x" style="background:#e2b574;border-radius:5px;display:flex;justify-content:center;align-items:center;font-size:20px;font-weight:bold;color:#e63737;text-shadow:1px 1px 2px #742020">X</div>
+          <div class="cell o" style="background:#e2b574;border-radius:5px;">O</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;">X</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;">X</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;">X</div>
+          <div class="cell o" style="background:#e2b574;border-radius:5px;">O</div>
+          <div class="cell o" style="background:#e2b574;border-radius:5px;">O</div>
+          <div class="cell o" style="background:#e2b574;border-radius:5px;">O</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;">X</div>
+          <div class="cell x" style="background:#e2b574;border-radius:5px;">X</div>
         </div>
       </div>
       <div class="label">دوز</div>
@@ -134,27 +139,22 @@ p{margin:6px 0 12px 0;font-size:16px;}
     <!-- کارت 2048 -->
     <div class="card" id="card2" onclick="handle2048()">
       <div class="image-box" style="padding:0;">
-        <svg width="100%" height="130px" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#f9d342;stop-opacity:1"/>
-              <stop offset="100%" style="stop-color:#f7c948;stop-opacity:1"/>
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width="200" height="200" rx="25" ry="25" fill="url(#grad)"/>
-          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="white">2048</text>
+        <svg width="100%" height="130px">
+          <rect x="0" y="0" width="200" height="200" rx="25" fill="#f7c948"></rect>
+          <text x="50%" y="55%" text-anchor="middle" font-size="64" fill="white" font-weight="bold">2048</text>
         </svg>
       </div>
       <div class="label">۲۰۴۸</div>
     </div>
 
-    <!-- کارت به زودی -->
+    <!-- به زودی -->
     <div class="card" id="card3" onclick="openPage('comingsoon','به‌زودی')">
       <div class="image-box">به‌زودی</div>
       <div class="label">به‌زودی</div>
     </div>
   </div>
 </div>
+
 
 <!-- صفحات داخلی -->
 <div id="game2" class="page">
@@ -168,17 +168,13 @@ p{margin:6px 0 12px 0;font-size:16px;}
 <div id="comingsoon" class="page">
   <button class="fullscreen-btn" onclick="toggleFull('wrap3')">تمام صفحه</button>
   <div class="iframe-wrap" id="wrap3">
-    <iframe srcdoc='
-    <!DOCTYPE html><html lang="fa"><head><meta charset="UTF-8"><title>به زودی</title></head>
-    <body style="margin:0; height:100vh; display:flex; justify-content:center; align-items:center; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); font-family:sans-serif; overflow:hidden;">
-    <h1 style="font-size:4rem;color:#fff;letter-spacing:6px;animation:glow 2s infinite alternate;">به‌زودی...</h1>
-    <style>@keyframes glow{from{text-shadow:0 0 10px #ffbb33,0 0 20px #ff9800,0 0 30px #ffc107;}to{text-shadow:0 0 25px #ffd700,0 0 40px #ffa500,0 0 60px #ffeb3b;}}</style>
-    </body></html>' style="width:100%;height:100%;border:0;" allowfullscreen></iframe>
+    <iframe srcdoc="<h1>به‌زودی...</h1>" style="width:100%;height:100%;border:0;"></iframe>
   </div>
   <div style="text-align:center"><a class="back" onclick="backMenu()">بازگشت</a></div>
 </div>
 
-<!-- Popup 2048 -->
+
+<!-- پاپ‌آپ محدودیت -->
 <div id="popup" style="
   position: fixed;
   inset: 0;
@@ -187,43 +183,29 @@ p{margin:6px 0 12px 0;font-size:16px;}
   background: rgba(0,0,0,0.55);
   justify-content: center;
   align-items: center;
-  z-index: 999999;
-">
+  z-index: 999999;">
   <div style="
-    background: linear-gradient(145deg,#ffffff,#e9e9e9);
+    background:#fff;
     padding: 28px 35px;
     border-radius: 18px;
     text-align: center;
     width: 80%;
-    max-width: 360px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-    animation: pop 0.35s ease;
-  ">
-    <h2 style="margin:0 0 12px 0;color:#333;font-size:24px;font-weight:800;">
-      محدودیت فعال شد
-    </h2>
-    <p style="font-size:17px;color:#444;margin:0 0 22px 0;">
-      تا انتشار در ایتا صبر کنید
-    </p>
+    max-width: 360px;">
+    <h2>محدودیت فعال شد</h2>
+    <p>تا انتشار در ایتا صبر کنید</p>
     <button onclick="closePopup()" style="
       padding: 10px 22px;
       background:#2b6cb0;
       color:white;
       border:0;
-      border-radius:10px;
-      font-size:16px;
-      cursor:pointer;
-      font-weight:600;
-      box-shadow:0 4px 10px rgba(0,0,0,0.2);
-    ">باشه</button>
+      border-radius:10px;">باشه</button>
   </div>
 </div>
 
-<style>
-@keyframes pop {from {transform:scale(.7); opacity:0;} to {transform:scale(1); opacity:1;}}
-</style>
 
 <script>
+
+/* ---------------- splash animation ---------------- */
 window.addEventListener('load',()=>{
   setTimeout(()=>{
     document.getElementById('splash').classList.add('hidden');
@@ -234,6 +216,7 @@ window.addEventListener('load',()=>{
   },2500);
 });
 
+/* ---------------- page system ---------------- */
 function openPage(id, title){
   document.getElementById('menu').classList.remove('active');
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -252,13 +235,13 @@ function backMenu(){
 function toggleFull(id){
   const elem = document.getElementById(id);
   if (!document.fullscreenElement) {
-    elem.requestFullscreen().catch(err=>alert("فول‌اسکرین پشتیبانی نمی‌شود!"));
+    elem.requestFullscreen();
   } else {
     document.exitFullscreen();
   }
 }
 
-// --------------- 2048 timer & popup ---------------
+/* -------------------- 2048 timer -------------------- */
 function handle2048(){
     let locked = localStorage.getItem("2048_locked");
     let start = localStorage.getItem("2048_start");
@@ -274,8 +257,9 @@ function handle2048(){
         return;
     }
 
-    let passed = (Date.now() - Number(start)) / 1000; // seconds
-    if(passed >= 300){  // 5 minutes
+    let passed = (Date.now() - Number(start)) / 1000;
+
+    if(passed >= 300){
         localStorage.setItem("2048_locked", "1");
         showPopup();
     } else {
@@ -283,13 +267,27 @@ function handle2048(){
     }
 }
 
-function showPopup(){
-    document.getElementById("popup").style.display = "flex";
+function showPopup(){ document.getElementById("popup").style.display = "flex"; }
+function closePopup(){ document.getElementById("popup").style.display = "none"; }
+
+/* ------------------ لینک کارت دوز مخصوص ایتا ------------------ */
+
+function openDoz(){
+    if (typeof EitaaWebApp !== "undefined") {
+        EitaaWebApp.openLink(
+            "https://eitaa.com/store_app/app?startapp=app_126&btn=مرکز.برنامک.های.ایتا",
+            { try_instant_view: false }
+        );
+    } else {
+        window.location.href =
+            "https://eitaa.com/store_app/app?startapp=app_126&btn=مرکز.برنامک.های.ایتا";
+    }
 }
 
-function closePopup(){
-    document.getElementById("popup").style.display = "none";
-}
+/* ---------------- فعال‌سازی SDK ---------------- */
+EitaaWebApp.ready();
+EitaaWebApp.expand();
+
 </script>
 </body>
 </html>
